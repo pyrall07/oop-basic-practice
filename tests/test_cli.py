@@ -20,8 +20,11 @@ def test_cli_flow_with_fixtures(mocker, capsys, repo, search_service, download_s
         "5"             # exit
     ])
 
-    # Mock download agar tidak benar-benar download
-    mocker.patch("services.download_service.YoutubeDL.download")
+    mocker.patch.object(
+        download_service.client,
+        "download",
+        return_value=None
+    )
 
     # Jalankan main() dengan dependency injection
     main(repo=repo, search_service=search_service, download_service=download_service)
@@ -37,3 +40,59 @@ def test_cli_flow_with_fixtures(mocker, capsys, repo, search_service, download_s
 
     # Cek repository telah menyimpan video dari search
     assert len(repo.list_all()) == 2
+
+def test_cli_clear_repository(mocker, capsys, repo, search_service, download_service):
+    mocker.patch(
+        "builtins.input", side_effect=[
+            "1", "Python", "2", # search
+            "4", "y",           # clear repository
+            "2",                # list
+            "5"                 # exit
+        ]
+    )
+    
+    main(repo=repo, search_service=search_service, download_service=download_service)
+    
+    captured = capsys.readouterr()
+    
+    assert "Repository berhasil dikosongkan." in captured.out
+    assert "Repository kosong." in captured.out
+    assert len(repo.list_all()) == 0
+    
+
+def test_cli_invalid_menu_input(mocker, capsys, repo, search_service, download_service):
+    mocker.patch(
+        "builtins.input", side_effect=[
+            "9", # invalid menu
+            "5"
+        ]
+    )
+    main(repo=repo, search_service=search_service, download_service=download_service)
+    
+    captured = capsys.readouterr()
+    assert "Pilihan tidak valid" in captured.out
+    
+def test_cli_multiple_download(mocker, capsys, repo, search_service, download_service):
+    mocker.patch("builtins.input", side_effect=[
+        "1", "Python", "3",   # search
+        "3",                  # download
+        "1,3",                # multiple selection
+        "",                   # default path
+        "5"                   # exit
+    ])
+
+    mock_download = mocker.patch.object(
+        download_service.client,
+        "download",
+        return_value=None
+    )
+
+    main(repo=repo, search_service=search_service, download_service=download_service)
+
+    captured = capsys.readouterr()
+
+    assert "Video berhasil didownload:" in captured.out
+    assert "Python Video 1" in captured.out
+    assert "Python Video 3" in captured.out
+    
+    assert mock_download.call_count == 2

@@ -1,7 +1,7 @@
 from repositories.memory_repository import MemoryVideoRepository
 from services.search_service import SearchService
 from services.download_service import DownloadService
-from utils.yt_dlp_client import YTDLPClient
+from infrastructure.yt_dlp.client import YTDLPClient
 
 def print_videos(videos):
     for idx, video in enumerate(videos, start=1):
@@ -49,19 +49,27 @@ def main(repo=None, search_service=None, download_service=None):
                 print("Tidak ada video untuk didownload. Lakukan search terlebih dahulu.")
                 continue
 
-            print("\nPilih video yang ingin didownload:")
+            print("\nPilih video yang ingin didownload (pisahkan dengan koma jika ingin download multiple videos):")
             print_videos(videos)
-            selected_idx = input("Masukkan nomor video: ").strip()
-            if not selected_idx.isdigit() or int(selected_idx) < 1 or int(selected_idx) > len(videos):
+            raw_input  = input("Masukkan nomor video: ").strip()
+            indices = [i.strip() for i in raw_input.split(",") if i.strip().isdigit()]
+
+            valid_indices = [
+                int(i) for i in indices
+                if 1 <= int(i) <= len(videos)
+            ]
+
+            if not valid_indices:
                 print("Pilihan tidak valid.")
                 continue
 
-            selected_video = videos[int(selected_idx)-1]
             download_path = input("Masukkan folder tujuan (default current folder): ").strip()
             download_path = download_path or None
 
-            saved_file = download_service.download(selected_video, download_path)
-            print(f"Video berhasil didownload: {saved_file}")
+            for idx in valid_indices:
+                video = videos[idx - 1]
+                saved_file = download_service.download(video, download_path)
+                print(f"Video berhasil didownload: {saved_file}")
 
         elif choice == "4":
             confirm = input("Apakah yakin ingin menghapus semua video di repository? (y/n): ").lower()

@@ -23,8 +23,12 @@ def dummy_client():
     return DummyClient()
 
 @pytest.fixture
-def download_service():
-    return DownloadService()
+def mock_client(mocker):
+    return mocker.Mock()
+
+@pytest.fixture
+def download_service(mock_client):
+    return DownloadService(mock_client)
 
 @pytest.fixture
 def repo():
