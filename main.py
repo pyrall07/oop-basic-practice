@@ -12,9 +12,19 @@ def main(repo=None, search_service=None, download_service=None):
     CLI interaktif.
     Bisa inject dependency (untuk testing)
     """
-    repo = repo or MemoryVideoRepository()
-    search_service = search_service or SearchService(repo, YTDLPClient())
-    download_service = download_service or DownloadService()
+    # ===== Dependency Injection (penting untuk testing) =====
+    if repo is None:
+        repo = MemoryVideoRepository()
+
+    if search_service is None or download_service is None:
+        client = YTDLPClient()
+
+        if search_service is None:
+            search_service = SearchService(repo, client)
+
+        if download_service is None:
+            download_service = DownloadService(client)
+    # =======================================================
 
     while True:
         print("\n=== YouTube Mini OOP CLI ===")
@@ -68,8 +78,8 @@ def main(repo=None, search_service=None, download_service=None):
 
             for idx in valid_indices:
                 video = videos[idx - 1]
-                saved_file = download_service.download(video, download_path)
-                print(f"Video berhasil didownload: {saved_file}")
+                download_service.download(video, download_path)
+                print(f"Video berhasil didownload: {video.title}")
 
         elif choice == "4":
             confirm = input("Apakah yakin ingin menghapus semua video di repository? (y/n): ").lower()
