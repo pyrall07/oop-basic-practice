@@ -4,41 +4,41 @@
 
 ## Description
 
-YouTube Mini OOP CLI Downloader adalah sebuah aplikasi Command Line Interface (CLI) berbasis Python yang memungkinkan pengguna untuk mencari, menyimpan, dan mengunduh video YouTube secara interaktif. Proyek ini dibuat sebagai Proyek Akhir CS50P dan dirancang dengan pendekatan Object-Oriented Programming (OOP) agar kode mudah dipelihara, diuji, dan dikembangkan.
+YouTube Mini OOP CLI Downloader is a Python-based Command Line Interface (CLI) application that allows users to search, store, and download YouTube videos interactively. This project was created as a CS50P Final Project and is designed using an Object-Oriented Programming (OOP) approach so that the code is easy to maintain, test, and extend.
 
-Aplikasi ini menggunakan library `yt-dlp` untuk melakukan pencarian dan pengunduhan video YouTube, serta `tqdm` untuk menampilkan animasi progress bar agar pengalaman pengguna di terminal lebih informatif dan bersih. Seluruh alur aplikasi dibuat modular dengan pemisahan tanggung jawab yang jelas antara layer Domain, Repository, Service, dan Infrastructure.
-
----
-
-## Fitur Utama
-
-- 🔍 **Mencari video YouTube** berdasarkan kata kunci
-- 📂 **Menyimpan hasil pencarian** ke repository sementara (in-memory)
-- 📃 **Menampilkan daftar video yang tersimpan**
-- ⬇ **Mengunduh satu atau beberapa video sekaligus**
-- 📊 **Progress bar animasi** saat proses pencarian dan pengunduhan
-- 🧹 **Menghapus seluruh repository**
-- 🧪 **Pengujian otomatis menggunakan pytest**
+This application uses the `yt-dlp` library to perform YouTube video searching and downloading, and `tqdm` to display animated progress bars, making the terminal user experience more informative and clean. The entire application flow is built in a modular way with clear separation of responsibilities between the Domain, Repository, Service, and Infrastructure layers.
 
 ---
 
-## Cara Menjalankan Program
+## Main Features
 
-Pastikan Python 3.10 atau lebih baru sudah terpasang.
+* 🔍 **Search YouTube videos** by keyword
+* 📂 **Store search results** in a temporary (in-memory) repository
+* 📃 **Display a list of saved videos**
+* ⬇ **Download one or multiple videos at once**
+* 📊 **Animated progress bar** during search and download processes
+* 🧹 **Clear the entire repository**
+* 🧪 **Automated testing using pytest**
 
-1. Install dependency:
+---
+
+## How to Run the Program
+
+Make sure Python 3.10 or newer is installed.
+
+1. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Jalankan Program:
+2. Run the program:
 
    ```bash
    python project.py
    ```
 
-3. Ikuti menu interaktif di terminal
+3. Follow the interactive menu in the terminal:
 
    ```markdown
    1. Search Video
@@ -48,32 +48,34 @@ Pastikan Python 3.10 atau lebih baru sudah terpasang.
    5. Exit
    ```
 
-## Struktur Proyek
+---
+
+## Project Structure
 
 ```graphql
 project/
 │
-├── project.py                 # Main program & fungsi wajib CS50P
-├── requirements.txt           # Daftar dependency
-├── README.md                  # Dokumentasi proyek
+├── project.py                 # Main program & required CS50P functions
+├── requirements.txt           # Dependency list
+├── README.md                  # Project documentation
 │
 ├── models/
-│   └── video.py               # Entitas Video
+│   └── video.py               # Video entity
 │
 ├── repositories/
-│   └── memory_repository.py   # Penyimpanan video sementara
+│   └── memory_repository.py   # Temporary in-memory video storage
 │
 ├── services/
-│   ├── search_service.py      # Logika pencarian video
-│   └── download_service.py    # Logika download video
+│   ├── search_service.py      # Video search logic
+│   └── download_service.py    # Video download logic
 │
 ├── infrastructure/
 │   └── yt_dlp/
-│       ├── client.py          # Wrapper yt-dlp
-│       └── options.py         # Konfigurasi yt-dlp
+│       ├── client.py          # yt-dlp wrapper
+│       └── options.py         # yt-dlp configuration
 │
 ├── utils/
-│   └── cli_helper.py          # Helper CLI (clear screen, pause)
+│   └── cli_helper.py          # CLI helpers (clear screen, pause)
 │
 ├── tests/
 │   ├── test_cli.py
@@ -82,38 +84,47 @@ project/
 │   ├── test_memory_repository.py
 │   └── test_video.py
 │
-└── test_project.py            # Test untuk fungsi wajib CS50P
+└── test_project.py            # Tests for required CS50P functions
 ```
 
-## Fungsi Wajib CS50P
+---
 
-Sesuai dengan spesifikasi CS50P, proyek ini memiliki **tiga fungsi tambahan** selain `main()` yang didefinisikan langsung di `project.py`:
+## Required CS50P Functions
 
-- search_videos(search_service, keyword, max_results)
-- list_videos(repo)
-- download_single_video(download_service, video, path)
+According to the CS50P specification, this project includes **three additional functions** besides `main()`, all defined directly in `project.py`:
 
-## Desain & Pertimbangan Teknis
+* `search_videos(search_service, keyword, max_results)`
+* `list_videos(repo)`
+* `download_single_video(download_service, video, path)`
 
-- **Object-Oriented Programming (OOP)** digunakan untuk memisahkan tanggung jawab setiap komponen.
-- **Dependency Injection** diterapkan agar kode mudah diuji tanpa koneksi internet.
-- **pytest + pytest-mock** digunakan untuk memastikan semua fitur dapat diuji secara otomatis.
-- **Progress bar bersifat visual saja**, sehingga tidak mengganggu logika bisnis dan aman saat testing.
-- Repository dibuat in-memory untuk kesederhanaan dan kecepatan.
-  
-## Hasil yang Diharapkan
+---
 
-- Program dapat dijalankan sepenuhnya dari terminal
-- Semua test berhasil dijalankan dengan:
-  
+## Design & Technical Considerations
+
+* **Object-Oriented Programming (OOP)** is used to separate responsibilities of each component.
+* **Dependency Injection** is applied to make the code easy to test without an internet connection.
+* **pytest + pytest-mock** are used to ensure all features can be tested automatically.
+* **Progress bars are purely visual**, so they do not interfere with business logic and are safe during testing.
+* The repository is implemented in-memory for simplicity and speed.
+
+---
+
+## Expected Outcome
+
+* The program can be fully run from the terminal.
+
+* All tests pass successfully by running:
+
   ```bash
   pytest -v
   ```
 
-- Kode mudah dibaca, modular, dan siap dikembangkan lebih lanjut
+* The code is clean, readable, modular, and ready for further development.
 
-## Catatan Penutup
+---
 
-Proyek ini dibuat sebagai sarana latihan penerapan Python, OOP, dan automated testing dalam satu aplikasi nyata. Kedepannya, aplikasi ini dapat dikembangkan dengan fitur tambahan seperti penyimpanan permanen, konfigurasi kualitas video, atau antarmuka grafis.
+## Closing Notes
 
-Terima Kasih telah meninjau proyek ini!
+This project was created as a practical exercise to apply Python, OOP, and automated testing in a real-world application. In the future, this application can be extended with additional features such as persistent storage, video quality configuration, or a graphical user interface.
+
+Thank you for reviewing this project!
