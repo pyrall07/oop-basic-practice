@@ -8,6 +8,10 @@ YouTube Mini OOP CLI Downloader is a Python-based Command Line Interface (CLI) a
 
 This application uses the `yt-dlp` library to perform YouTube video searching and downloading, and `tqdm` to display animated progress bars, making the terminal user experience more informative and clean. The entire application flow is built in a modular way with clear separation of responsibilities between the Domain, Repository, Service, and Infrastructure layers.
 
+The main reason this project was designed with a layered and modular folder structure is to apply software engineering best practices learned throughout CS50P, particularly **Object-Oriented Programming, separation of concerns**, and **testability**. Each folder in the project represents a specific responsibility: the `models` layer defines core data objects, `repositories` manage how data is stored and retrieved, `services` contain the application’s business logic, `infrastructure` handles external dependencies such as YouTube and `yt-dlp`, and `utils` provides reusable helper functions for the CLI interface.
+
+By organizing the project this way, the application becomes easier to understand, easier to test with unit tests, and easier to extend in the future (for example, replacing in-memory storage with a database or adding new download features). This structure also reflects real-world software development practices, ensuring that the project is not only functional but also well-structured, scalable, and maintainable.
+
 ---
 
 ## Main Features
