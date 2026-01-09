@@ -1,6 +1,6 @@
 from yt_dlp import YoutubeDL
 from .options import SEARCH_OPTIONS, DOWNLOAD_OPTIONS
-from .progress import DownloadProgress
+
 
 class YTDLPClient:
 
@@ -14,9 +14,6 @@ class YTDLPClient:
         options = DOWNLOAD_OPTIONS.copy()
         if path:
             options["outtmpl"] = f"{path}/%(title)s.%(ext)s"
-            
-        progress = DownloadProgress()
-        options["progress_hooks"] = [progress.hook]
             
         with YoutubeDL(options) as ydl:
             ydl.download([url])

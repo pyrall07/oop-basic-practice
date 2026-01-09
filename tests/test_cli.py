@@ -1,4 +1,4 @@
-from main import main
+from project import main
 
 def test_cli_flow_with_fixtures(mocker, capsys, repo, search_service, download_service):
     """
@@ -27,7 +27,12 @@ def test_cli_flow_with_fixtures(mocker, capsys, repo, search_service, download_s
     )
 
     # Jalankan main() dengan dependency injection
-    main(repo=repo, search_service=search_service, download_service=download_service)
+    main(
+    repo=repo,
+    search_service=search_service,
+    download_service=download_service,
+    interactive=False
+)
 
     captured = capsys.readouterr()
     # Cek output ada judul video dari dummy_client
@@ -51,7 +56,12 @@ def test_cli_clear_repository(mocker, capsys, repo, search_service, download_ser
         ]
     )
     
-    main(repo=repo, search_service=search_service, download_service=download_service)
+    main(
+    repo=repo,
+    search_service=search_service,
+    download_service=download_service,
+    interactive=False
+)
     
     captured = capsys.readouterr()
     
@@ -67,7 +77,12 @@ def test_cli_invalid_menu_input(mocker, capsys, repo, search_service, download_s
             "5"
         ]
     )
-    main(repo=repo, search_service=search_service, download_service=download_service)
+    main(
+    repo=repo,
+    search_service=search_service,
+    download_service=download_service,
+    interactive=False
+)
     
     captured = capsys.readouterr()
     assert "Pilihan tidak valid" in captured.out
@@ -87,7 +102,12 @@ def test_cli_multiple_download(mocker, capsys, repo, search_service, download_se
         return_value=None
     )
 
-    main(repo=repo, search_service=search_service, download_service=download_service)
+    main(
+    repo=repo,
+    search_service=search_service,
+    download_service=download_service,
+    interactive=False
+)
 
     captured = capsys.readouterr()
 

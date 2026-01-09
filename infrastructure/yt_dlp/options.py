@@ -1,7 +1,3 @@
-from .progress import DownloadProgress
-
-progress = DownloadProgress()
-
 SEARCH_OPTIONS = {
     "quiet": True,
     "no_warnings": True,
@@ -17,7 +13,6 @@ DOWNLOAD_OPTIONS = {
     "outtmpl": "%(title)s.%(ext)s",
 
     "noplaylist": True,
-    "progress_hooks": [progress.hook],
 
     # 🔇 Matikan semua noise
     "quiet": True,
